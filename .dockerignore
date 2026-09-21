@@ -1,0 +1,12 @@
+node_modules
+.pnpm-store
+.next
+dist
+.git
+.gitignore
+Dockerfile*
+docker-compose*
+*.log
+.env
+.env.*
+!.env.example
