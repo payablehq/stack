@@ -1,7 +1,6 @@
 {
   "extends": "@stack/typescript-config/nestjs.json",
   "compilerOptions": {
-    "outDir": "./dist",
     "types": ["node"]
   },
   "include": ["src/**/*.ts"]

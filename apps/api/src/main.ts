@@ -1,12 +1,17 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module.js';
-import { ValidationPipe } from '@nestjs/common';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
+
+  app.enableCors({
+    origin: 'http://localhost:3000',
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -15,13 +20,9 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({
-    origin: 'http://localhost:3000',
-  });
-
   const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('My Monorepo API documentation')
+    .setTitle('Stack API')
+    .setDescription('Stack API documentation')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
