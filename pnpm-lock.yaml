@@ -7,10 +7,10 @@ importers:
     configDependencies: {}
     packageManagerDependencies:
       '@pnpm/exe':
-        specifier: ^11.4.0
+        specifier: 11.27.1
         version: 11.27.1
       pnpm:
-        specifier: ^11.4.0
+        specifier: 11.27.1
         version: 11.27.1
 
 packages:
@@ -335,6 +335,8 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+
+  packages/eslint-config: {}
 
   packages/typescript-config: {}
 
