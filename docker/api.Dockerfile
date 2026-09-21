@@ -11,7 +11,10 @@ FROM base AS dependencies
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/api/package.json apps/api/package.json
-COPY packages/*/package.json packages/*/
+COPY apps/web/package.json apps/web/package.json
+COPY packages/eslint-config/package.json packages/eslint-config/package.json
+COPY packages/typescript-config/package.json packages/typescript-config/package.json
+COPY packages/ui/package.json packages/ui/package.json
 
 RUN pnpm install --frozen-lockfile
 
@@ -25,9 +28,13 @@ FROM base AS production
 
 WORKDIR /app
 
+ENV NODE_ENV=production
+
 COPY --from=dependencies /app/node_modules ./node_modules
+
 COPY --from=build /app/apps/api/dist ./apps/api/dist
 COPY --from=build /app/apps/api/package.json ./apps/api/package.json
+
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=build /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
