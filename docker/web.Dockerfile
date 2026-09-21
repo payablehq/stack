@@ -29,22 +29,18 @@ COPY . .
 RUN pnpm --filter web build
 
 
-FROM base AS production
+FROM node:22-alpine AS production
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=build /app/apps/web/.next ./apps/web/.next
+COPY --from=build /app/apps/web/.next/standalone ./
+COPY --from=build /app/apps/web/.next/static ./apps/web/.next/static
+
+# Only needed if your application has a public directory.
 COPY --from=build /app/apps/web/public ./apps/web/public
-COPY --from=build /app/apps/web/package.json ./apps/web/package.json
-
-COPY --from=dependencies /app/node_modules ./node_modules
-
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=build /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "web", "start"]
+CMD ["node", "apps/web/server.js"]
